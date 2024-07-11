@@ -18,7 +18,7 @@ jwt = JWTManager(app)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(150), unique=True, nullable=False)
+    email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
 
 @app.route('/')
@@ -29,21 +29,21 @@ def index():
 def register():
     data = request.get_json()
     hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
-    new_user = User(username=data['username'], password=hashed_password)
+    new_user = User(email=data['email'], password=hashed_password)
     db.session.add(new_user)
     db.session.commit()
     return jsonify(message="User created successfully"), 201
     # return jsonify({
-    #     "username": new_user.username,
+    #     "email": new_user.email,
     #     "password": new_user.password
     # })
 
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
-    user = User.query.filter_by(username=data['username']).first()
+    user = User.query.filter_by(email=data['email']).first()
     if user and bcrypt.check_password_hash(user.password, data['password']):
-        access_token = create_access_token(identity={'username': user.username})
+        access_token = create_access_token(identity={'email': user.email})
         return jsonify(access_token=access_token), 200
     else:
         return jsonify(message="Invalid credentials"), 401
