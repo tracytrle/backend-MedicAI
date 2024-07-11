@@ -32,11 +32,11 @@ def register():
     new_user = User(email=data['email'], password=hashed_password)
     db.session.add(new_user)
     db.session.commit()
-    return jsonify(message="User created successfully"), 201
-    # return jsonify({
-    #     "email": new_user.email,
-    #     "password": new_user.password
-    # })
+    # return jsonify(message="User created successfully"), 201
+    return jsonify({
+        "email": new_user.email,
+        "password": data['password']
+    })
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -44,7 +44,12 @@ def login():
     user = User.query.filter_by(email=data['email']).first()
     if user and bcrypt.check_password_hash(user.password, data['password']):
         access_token = create_access_token(identity={'email': user.email})
-        return jsonify(access_token=access_token), 200
+        # return jsonify(access_token=access_token), 200
+        return jsonify({
+        "id": user.id,
+        "email": user.email,
+        "access_token": access_token
+    }), 200
     else:
         return jsonify(message="Invalid credentials"), 401
 
@@ -52,6 +57,7 @@ def login():
 @jwt_required()
 def protected():
     current_user = get_jwt_identity()
+    # print("current user: " + current_user)
     return jsonify(logged_in_as=current_user), 200
 
 if __name__ == '__main__':
