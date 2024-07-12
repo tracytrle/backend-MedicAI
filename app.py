@@ -30,6 +30,10 @@ def index():
 @app.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
+    user_exists = User.query.filter_by(email=data['email']).first() is not None
+    if user_exists:
+        return jsonify(message="User already exists"), 409
+
     hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
     new_user = User(email=data['email'], password=hashed_password)
     db.session.add(new_user)
