@@ -10,9 +10,11 @@ app = Flask(__name__)
 
 # Configuration
 app.config.from_object(ApplicationConfig)
-CORS(app)
+
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
+# CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000/"}})
 db.init_app(app)
 
 migrate = Migrate(app, db)
@@ -24,6 +26,7 @@ def index():
 
 
 @app.route('/register', methods=['POST'])
+@cross_origin()
 def register():
     data = request.get_json()
     user_exists = User.query.filter_by(email=data['email']).first() is not None
@@ -41,6 +44,7 @@ def register():
 
 
 @app.route('/login', methods=['POST'])
+@cross_origin()
 def login():
     data = request.get_json()
     user = User.query.filter_by(email=data['email']).first()
@@ -56,6 +60,7 @@ def login():
 
 
 @app.route('/protected', methods=['GET'])
+@cross_origin()
 @jwt_required()
 def protected():
     current_user = get_jwt_identity()
