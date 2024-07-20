@@ -4,3 +4,17 @@ app/config/.env
 .idea/
 __pycache__/
 models/__pycache__/
+
+.venv/
+
+*.pyc
+
+instance/
+
+.pytest_cache/
+.coverage
+htmlcov/
+
+dist/
+build/
+*.egg-info/
