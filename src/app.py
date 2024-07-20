@@ -42,7 +42,7 @@ def register():
         "password": data['password']
     })
 
-
+# Login route
 @app.route('/login', methods=['POST'])
 @cross_origin()
 def login():
