@@ -1,5 +1,5 @@
 ./venv
 venv/
-src/config/.env
+app/config/.env
 .idea/
 __pycache__/

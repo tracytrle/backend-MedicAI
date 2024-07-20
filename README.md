@@ -34,7 +34,12 @@ print(secret_key)
 ### Database migration
 
 ```bash
+# Run only the first time
 flask db init
+
+# Create migration
 flask db migrate -m "Initial migration."
+
+# Run to upgrade the database
 flask db upgrade
 ```
