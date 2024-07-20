@@ -1,2 +1,5 @@
 ./venv
-.env
+venv/
+app/config/.env
+.idea/
+__pycache__/
