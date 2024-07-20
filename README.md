@@ -7,6 +7,8 @@
 ```bash
 psql -U postgres -h localhost
 CREATE DATABASE backend_medicai;
+
+psql -U postgres -h localhost -f init.sql 
 ```
 
 ### Install python and setup environment
