@@ -30,7 +30,6 @@ install:
 
 run:
 	@echo "Running the Flask application..."
-	@echo $(PYTHONPATH)
 	PYTHONPATH=$(CURRENT_DIR)/$(APP_NAME) FLASK_APP=$(APP_NAME) FLASK_ENV=$(APP_ENV) $(VENV_DIR)/bin/flask run
 
 clean:

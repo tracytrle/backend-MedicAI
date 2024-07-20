@@ -1,6 +1,8 @@
+from flask import jsonify
+
 from medicai.main import bp
 
 
 @bp.route('/medicai')
 def index():
-    return 'This is The Main Blueprint'
+    return jsonify(message="Welcome to MedicAI")

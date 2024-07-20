@@ -15,6 +15,9 @@ def create_app(config_class=ApplicationConfig):
     from medicai.main import bp as main_bp
     app.register_blueprint(main_bp)
 
+    from medicai.auth import bp as auth_bp
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+
     @app.route('/test/')
     def test_page():
         return '<h1>Testing the Flask Application Factory Pattern</h1>'
