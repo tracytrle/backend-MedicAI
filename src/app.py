@@ -4,7 +4,7 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 from flask_cors import CORS
 from flask_migrate import Migrate
 from models.user import db, User
-from config import ApplicationConfig
+from config.config import ApplicationConfig
 
 app = Flask(__name__)
 
