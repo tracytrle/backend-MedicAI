@@ -3,3 +3,4 @@ venv/
 app/config/.env
 .idea/
 __pycache__/
+models/__pycache__/
