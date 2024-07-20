@@ -30,3 +30,11 @@ import secrets
 secret_key = secrets.token_hex(32)
 print(secret_key)
 ```
+
+### Database migration
+
+```bash
+flask db init
+flask db migrate -m "Initial migration."
+flask db upgrade
+```
