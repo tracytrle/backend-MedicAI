@@ -17,6 +17,12 @@ db.init_app(app)
 
 migrate = Migrate(app, db)
 
+
+@app.route('/')
+def index():
+    return jsonify(message="Welcome to MedicAI")
+
+
 @app.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
