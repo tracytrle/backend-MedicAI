@@ -2,6 +2,15 @@
 
 ## Getting start for developer
 
+### Install postgresql
+
+```bash
+psql -U postgres -h localhost
+CREATE DATABASE backend_medicai;
+```
+
+### Install python and setup environment
+
 ```bash
 # Install Python  3.9
 $ python -m venv venv
