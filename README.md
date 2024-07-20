@@ -9,3 +9,13 @@ $ source venv/bin/activate
 $ pip install -r requirements.txt
 $ deactivate
 ```
+
+### Generate jwt secret
+
+```bash
+import secrets
+
+# Generate a secure random secret key
+secret_key = secrets.token_hex(32)
+print(secret_key)
+```
