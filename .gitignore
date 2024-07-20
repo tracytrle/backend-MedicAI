@@ -1,6 +1,6 @@
 ./venv
 venv/
-src/config/.env
+medicai/config/.env
 .idea/
 __pycache__/
 models/__pycache__/
