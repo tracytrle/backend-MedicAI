@@ -32,6 +32,18 @@ run:
 	@echo "Running the Flask application..."
 	PYTHONPATH=$(CURRENT_DIR)/$(APP_NAME) FLASK_APP=$(APP_NAME) FLASK_ENV=$(APP_ENV) $(VENV_DIR)/bin/flask run
 
+migrate:
+	@echo "Running the Flask migration..."
+	PYTHONPATH=$(CURRENT_DIR)/$(APP_NAME) FLASK_APP=$(APP_NAME) FLASK_ENV=$(APP_ENV) $(VENV_DIR)/bin/flask db upgrade
+
+init:
+	@echo "Running the Flask migration..."
+	PYTHONPATH=$(CURRENT_DIR)/$(APP_NAME) FLASK_APP=$(APP_NAME) FLASK_ENV=$(APP_ENV) $(VENV_DIR)/bin/flask db init
+
+shell:
+	@echo "Running the Flask shell..."
+	PYTHONPATH=$(CURRENT_DIR)/$(APP_NAME) FLASK_APP=$(APP_NAME) FLASK_ENV=$(APP_ENV) $(VENV_DIR)/bin/flask shell
+
 clean:
 	@echo "Removing virtual environment..."
 	rm -rf $(VENV_DIR)

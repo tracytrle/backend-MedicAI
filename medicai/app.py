@@ -67,11 +67,11 @@ def protected():
     return jsonify(logged_in_as=current_user), 200
 
 
-if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-    # Register blueprints here
-    from medicai.main import bp as main_bp
-    app.register_blueprint(main_bp)
-
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     with app.app_context():
+#         db.create_all()
+#     # Register blueprints here
+#     from medicai.main import bp as main_bp
+#     app.register_blueprint(main_bp)
+#
+#     app.run(debug=True)
