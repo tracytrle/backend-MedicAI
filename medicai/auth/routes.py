@@ -1,31 +1,18 @@
-from flask import Flask, request, jsonify
-from flask_bcrypt import Bcrypt
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask import request, jsonify
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from flask_cors import CORS, cross_origin
-from flask_migrate import Migrate
-from models.user import db, User
-from config.config import ApplicationConfig
-
-app = Flask(__name__)
-
-# Configuration
-app.config.from_object(ApplicationConfig)
-
-bcrypt = Bcrypt(app)
-jwt = JWTManager(app)
-# CORS(app)
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000/"}})
-db.init_app(app)
-
-migrate = Migrate(app, db)
+from medicai.models.user import User
+from medicai.extensions import db
+from medicai.extensions import bcrypt
+from medicai.auth import bp
 
 
-@app.route('/')
+@bp.route('/medicai')
 def index():
     return jsonify(message="Welcome to MedicAI")
 
 
-@app.route('/register', methods=['POST'])
+@bp.route('/register', methods=['POST'])
 @cross_origin()
 def register():
     data = request.get_json()
@@ -43,7 +30,7 @@ def register():
     })
 
 # Login route
-@app.route('/login', methods=['POST'])
+@bp.route('/login', methods=['POST'])
 @cross_origin()
 def login():
     data = request.get_json()
@@ -59,16 +46,9 @@ def login():
         return jsonify(message="Invalid credentials"), 401
 
 
-@app.route('/protected', methods=['GET'])
+@bp.route('/protected', methods=['GET'])
 @cross_origin()
 @jwt_required()
 def protected():
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user), 200
-
-
-if __name__ == '__main__':
-    with app.app_context():
-      db.create_all()
-
-    app.run(debug=True)

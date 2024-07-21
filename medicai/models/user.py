@@ -1,6 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from medicai.extensions import db
 
 
 class User(db.Model):
