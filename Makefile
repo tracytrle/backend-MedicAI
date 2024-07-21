@@ -7,7 +7,7 @@ VENV_DIR = venv
 CURRENT_DIR=$(shell pwd)
 
 # Commands
-.PHONY: help setup install run clean
+.PHONY: help setup install run clean dbmigrate dbinit shell freeze
 
 help:
 	@echo "Makefile commands:"
@@ -15,6 +15,10 @@ help:
 	@echo "  install - Install dependencies"
 	@echo "  run     - Run the Flask application"
 	@echo "  clean   - Remove virtual environment"
+	@echo "  dbmigrate - Run the Flask migration"
+	@echo "  dbinit  - Run the Flask migration"
+	@echo "  shell   - Run the Flask shell"
+	@echo "  freeze  - Freeze the dependencies"
 
 setup: $(VENV_DIR)
 
@@ -32,11 +36,15 @@ run:
 	@echo "Running the Flask application..."
 	PYTHONPATH=$(CURRENT_DIR)/$(APP_NAME) FLASK_APP=$(APP_NAME) FLASK_ENV=$(APP_ENV) $(VENV_DIR)/bin/flask run
 
-migrate:
+clean:
+	@echo "Removing virtual environment..."
+	rm -rf $(VENV_DIR)
+
+dbmigrate:
 	@echo "Running the Flask migration..."
 	PYTHONPATH=$(CURRENT_DIR)/$(APP_NAME) FLASK_APP=$(APP_NAME) FLASK_ENV=$(APP_ENV) $(VENV_DIR)/bin/flask db upgrade
 
-init:
+dbinit:
 	@echo "Running the Flask migration..."
 	PYTHONPATH=$(CURRENT_DIR)/$(APP_NAME) FLASK_APP=$(APP_NAME) FLASK_ENV=$(APP_ENV) $(VENV_DIR)/bin/flask db init
 
@@ -44,6 +52,5 @@ shell:
 	@echo "Running the Flask shell..."
 	PYTHONPATH=$(CURRENT_DIR)/$(APP_NAME) FLASK_APP=$(APP_NAME) FLASK_ENV=$(APP_ENV) $(VENV_DIR)/bin/flask shell
 
-clean:
-	@echo "Removing virtual environment..."
-	rm -rf $(VENV_DIR)
+freeze:
+	pip freeze > requirements.txt
