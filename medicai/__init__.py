@@ -3,7 +3,9 @@ from config.config import ApplicationConfig
 from medicai.extensions import db
 from medicai.extensions import jwt
 from medicai.extensions import migrate
+from medicai.extensions import bcrypt
 import os
+
 
 def create_app(config_class=ApplicationConfig):
     app = Flask(__name__)
@@ -13,6 +15,7 @@ def create_app(config_class=ApplicationConfig):
     db.init_app(app)
     jwt.init_app(app)
     migrate.init_app(app, db, directory='{}/medicai/migrations'.format(os.getcwd()))
+    bcrypt.init_app(app)
 
     # Register blueprints here
     from medicai.main import bp as main_bp
