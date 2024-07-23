@@ -34,7 +34,7 @@ install:
 
 run:
 	@echo "Running the Flask application..."
-	PYTHONPATH=$(CURRENT_DIR)/$(APP_NAME) FLASK_APP=$(APP_NAME) FLASK_ENV=$(APP_ENV) $(VENV_DIR)/bin/flask run
+	PYTHONPATH=$(CURRENT_DIR)/$(APP_NAME) FLASK_APP=$(APP_NAME) FLASK_ENV=$(APP_ENV) $(VENV_DIR)/bin/flask run --host=0.0.0.0 --port=5005
 
 clean:
 	@echo "Removing virtual environment..."
