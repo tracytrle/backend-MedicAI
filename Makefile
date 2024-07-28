@@ -15,7 +15,7 @@ help:
 	@echo "  install - Install dependencies"
 	@echo "  run     - Run the Flask application"
 	@echo "  clean   - Remove virtual environment"
-	@echo "  dbmigrate - Run the Flask migration"
+	@echo "  dbupgrade - Run the Flask upgrade"
 	@echo "  dbinit  - Run the Flask migration"
 	@echo "  shell   - Run the Flask shell"
 	@echo "  freeze  - Freeze the dependencies"
@@ -40,12 +40,14 @@ clean:
 	@echo "Removing virtual environment..."
 	rm -rf $(VENV_DIR)
 
-dbmigrate:
+dbupgrade:
 	@echo "Running the Flask migration..."
 	PYTHONPATH=$(CURRENT_DIR)/$(APP_NAME) FLASK_APP=$(APP_NAME) FLASK_ENV=$(APP_ENV) $(VENV_DIR)/bin/flask db upgrade
 
 dbinit:
 	@echo "Running the Flask migration..."
+	echo "$(CURRENT_DIR)/$(APP_NAME)"
+	echo "$(APP_NAME)"
 	PYTHONPATH=$(CURRENT_DIR)/$(APP_NAME) FLASK_APP=$(APP_NAME) FLASK_ENV=$(APP_ENV) $(VENV_DIR)/bin/flask db init
 
 shell:
