@@ -53,6 +53,13 @@ def register():
 @cross_origin()
 def login():
     data = request.get_json()
+    if 'phone' not in data:
+        return jsonify(message="Phone number is required"), 400
+    if 'email' not in data:
+        return jsonify(message="Email is required"), 400
+    if 'password' not in data:
+        return jsonify(message="Password is required"), 400
+
     user = User.query.filter_by(phone=data['phone']).first()
     if user and bcrypt.check_password_hash(user.password, data['password']):
         access_token = create_access_token(identity={'phone': user.phone})
