@@ -16,14 +16,30 @@ def index():
 @cross_origin()
 def register():
     data = request.get_json()
+    if 'phone' not in data:
+        return jsonify(message="Phone number is required"), 400
+    if 'email' not in data:
+        return jsonify(message="Email is required"), 400
+    if 'password' not in data:
+        return jsonify(message="Password is required"), 400
     user_exists = User.query.filter_by(phone=data['phone']).first() is not None
     if user_exists:
         return jsonify(message="User already exists"), 409
 
     hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
-    new_user = User(email=data['email'], password=hashed_password, phone=data['phone'],
-                    firstName=data['firstName'], middleName=data['middleName'], lastName=data['lastName'], 
-                    gender=data['gender'], dateOfBirth=data['dateOfBirth'], city=data['city'], country=data['country'])
+    new_user = User(
+        email=data['email'], 
+        password=hashed_password, 
+        phone=data['phone'],
+        firstName=data.get('firstName', ''), 
+        middleName=data.get('middleName', ''), 
+        lastName=data.get('lastName', ''), 
+        gender=data.get('gender', ''), 
+        dateOfBirth=data.get('dateOfBirth', ''), 
+        city=data.get('city', ''), 
+        country=data.get('country', '')
+    )
+    
     db.session.add(new_user)
     db.session.commit()
     return jsonify({

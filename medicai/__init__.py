@@ -24,8 +24,8 @@ def create_app(config_class=ApplicationConfig):
     from medicai.auth import bp as auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
-    from medicai.user import bp as user_bp
-    app.register_blueprint(user_bp, url_prefix='/user')
+    from medicai.healthRecord import bp as healthRecord_bp
+    app.register_blueprint(healthRecord_bp, url_prefix='/healthRecord')
 
 
     return app
