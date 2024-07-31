@@ -22,10 +22,12 @@ def register():
         return jsonify(message="Email is required"), 400
     if 'password' not in data:
         return jsonify(message="Password is required"), 400
-    user_exists = User.query.filter_by(phone=data['phone']).first() is not None
-    if user_exists:
-        return jsonify(message="User already exists"), 409
-
+    
+    user_exists_by_phone = User.query.filter_by(phone=data['phone']).first() is not None
+  
+    if user_exists_by_phone:
+        return jsonify(message="User with this phone number already exists"), 409
+    
     hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
     new_user = User(
         email=data['email'], 
