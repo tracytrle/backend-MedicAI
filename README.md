@@ -2,7 +2,7 @@
 
 ## Getting start for developer
 
-### Install postgresql
+### Install postgresql 
 
 ```bash
 psql -U postgres -h localhost
