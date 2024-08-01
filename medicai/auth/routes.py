@@ -22,10 +22,12 @@ def register():
         return jsonify(message="Email is required"), 400
     if 'password' not in data:
         return jsonify(message="Password is required"), 400
-    user_exists = User.query.filter_by(phone=data['phone']).first() is not None
-    if user_exists:
-        return jsonify(message="User already exists"), 409
-
+    
+    existing_user_by_phone = User.query.filter_by(phone=data['phone']).first() is not None
+  
+    if existing_user_by_phone:
+        return jsonify(message="User with this phone number already exists"), 409
+    
     hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
     new_user = User(
         email=data['email'], 
@@ -53,6 +55,13 @@ def register():
 @cross_origin()
 def login():
     data = request.get_json()
+    if 'phone' not in data:
+        return jsonify(message="Phone number is required"), 400
+    if 'email' not in data:
+        return jsonify(message="Email is required"), 400
+    if 'password' not in data:
+        return jsonify(message="Password is required"), 400
+
     user = User.query.filter_by(phone=data['phone']).first()
     if user and bcrypt.check_password_hash(user.password, data['password']):
         access_token = create_access_token(identity={'phone': user.phone})
