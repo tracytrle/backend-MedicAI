@@ -74,6 +74,30 @@ def login():
     else:
         return jsonify(message="Invalid credentials"), 401
 
+@bp.route('/user', methods=['GET']) 
+@cross_origin()
+@jwt_required()
+def user():
+    current_user = get_jwt_identity()
+    user = User.query.filter_by(phone=current_user['phone']).first()
+    
+    if user is None:
+        return jsonify({"error": "User not found"}), 404
+
+    return jsonify({
+        "id": user.id,
+        "email": user.email,
+        "phone": user.phone,
+        "firstName": user.firstName,
+        "middleName": user.middleName,
+        "lastName": user.lastName,
+        "gender": user.gender,
+        "dateOfBirth": user.dateOfBirth,
+        "city": user.city,
+        "country": user.country
+    }), 200
+
+
 
 @bp.route('/protected', methods=['GET'])
 @cross_origin()
