@@ -98,8 +98,6 @@ def user():
         "country": user.country
     }), 200
 
-# how to get userId from phone number?
-
 
 @bp.route('/protected', methods=['GET'])
 @cross_origin()
