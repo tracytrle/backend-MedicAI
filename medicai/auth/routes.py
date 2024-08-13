@@ -45,6 +45,7 @@ def register():
     db.session.add(new_user)
     db.session.commit()
     return jsonify({
+        "userId": new_user.id,
         "email": new_user.email,
         "phone": new_user.phone,
         "password": data['password']
@@ -97,6 +98,7 @@ def user():
         "country": user.country
     }), 200
 
+# how to get userId from phone number?
 
 
 @bp.route('/protected', methods=['GET'])
