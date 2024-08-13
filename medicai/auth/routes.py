@@ -45,6 +45,7 @@ def register():
     db.session.add(new_user)
     db.session.commit()
     return jsonify({
+        "userId": new_user.id,
         "email": new_user.email,
         "phone": new_user.phone,
         "password": data['password']
@@ -96,7 +97,6 @@ def user():
         "city": user.city,
         "country": user.country
     }), 200
-
 
 
 @bp.route('/protected', methods=['GET'])
