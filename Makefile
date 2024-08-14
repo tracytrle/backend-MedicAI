@@ -41,7 +41,8 @@ clean:
 	rm -rf $(VENV_DIR)
 
 
-dbmigrate:
+dbmigrate: 
+# example run: make dbmigrate m="create user table"
 	@echo "Running the Flask migration with message: $(m)"
 	PYTHONPATH=$(CURRENT_DIR)/$(APP_NAME) FLASK_APP=$(APP_NAME) FLASK_ENV=$(APP_ENV) $(VENV_DIR)/bin/flask db migrate  -m "$(m)"
 
