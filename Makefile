@@ -19,6 +19,7 @@ help:
 	@echo "  dbinit  - Run the Flask migration"
 	@echo "  shell   - Run the Flask shell"
 	@echo "  freeze  - Freeze the dependencies"
+	@echo "  dbmigrate - Run the Flask migration with message"
 
 setup: $(VENV_DIR)
 
