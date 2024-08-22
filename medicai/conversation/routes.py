@@ -9,8 +9,9 @@ from datetime import datetime
 
 @bp.route('/getLatest/<int:userId>', methods=['GET'])
 @cross_origin()
-def get_latestConversation(userId):
-    current_user = User.query.filter_by(id=userId).first()
+def get_latest_conversation(userId):
+    # current_user = User.query.filter_by(id=userId).first()
+    current_user = User.query.get(userId)
     if current_user is None:
         return jsonify(message="User not found"), 400
     # query Conversation table to get the latest conversation Id
