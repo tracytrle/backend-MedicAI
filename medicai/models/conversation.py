@@ -4,7 +4,7 @@ from medicai.extensions import db
 from datetime import datetime
 
 class Conversation(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.BigInteger, primary_key=True)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     conversationId = db.Column(db.Integer, nullable=False)
     sender = db.Column(db.String(50), nullable=True)
