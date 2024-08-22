@@ -1,4 +1,5 @@
 from flask import request, jsonify
+from sqlalchemy import asc
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from flask_cors import CORS, cross_origin
 from medicai.models.conversation import Conversation
@@ -78,3 +79,44 @@ def add_message(userId):
     db.session.commit()
 
     return jsonify(message="Message added successfully"), 200
+
+@bp.route('/getAllMessages/<int:userId>', methods=['GET'])
+@cross_origin()
+def get_all_messages(userId):
+
+    current_user = User.query.get(userId)
+    if current_user is None:
+        return jsonify(message="User not found"), 400
+
+    # Query to group by conversationId and order by created_at
+    conversations = (
+        Conversation.query
+        .filter_by(userId=userId)
+        .order_by(asc(Conversation.conversationId), asc(Conversation.created_at))
+        .all()
+    )
+
+    if not conversations:
+        return jsonify(message="No conversations found"), 400
+
+    # Grouping the results by conversationId
+    grouped_conversations = {}
+    for conversation in conversations:
+        conv_id = conversation.conversationId
+        if conv_id not in grouped_conversations:
+            grouped_conversations[conv_id] = []
+        grouped_conversations[conv_id].append({
+            "conversationId": conversation.conversationId,
+            "sender": conversation.sender,
+            "message": conversation.message,
+            "created_at": conversation.created_at,
+            "last_updated_at": conversation.last_updated_at
+        })
+
+    # Flattening the grouped conversations into a list of dictionaries
+    conversations_list = [
+        {"conversationId": conv_id, "messages": msgs}
+        for conv_id, msgs in grouped_conversations.items()
+    ]
+
+    return jsonify(conversations_list), 200
